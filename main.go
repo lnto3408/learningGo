@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+
+	"net/http"
+
+	"./api"
 )
 
 func main() {
@@ -67,6 +71,13 @@ func main() {
 	fmt.Println(num6 / num7)
 
 	// complex64
-	var num8 complex64 = 2i
+	//var num8 complex64 = 2i
 
+	// web server
+	//http.HandleFunc("/hello-world", func(w http.ResponseWriter, r *http.Request) {
+	//	w.Write([]byte("hellow world"))
+	//})
+	//http.ListenAndServe(":8080", nil)
+	srv := api.NewServer()
+	http.ListenAndServe(":8080", srv)
 }
