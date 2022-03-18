@@ -4,10 +4,24 @@ import (
 	"fmt"
 	"strconv"
 	"time"
+)
 
-	"net/http"
-
-	"./api"
+const (
+	myConst1 = iota
+	myConst2
+	myConst3
+	myConst4
+)
+const (
+	_  = iota
+	KB = 1 << (10 * iota)
+	MB
+	GB
+	TB
+	PB
+	EB
+	ZB
+	YB
 )
 
 func main() {
@@ -73,11 +87,29 @@ func main() {
 	// complex64
 	//var num8 complex64 = 2i
 
+	//string
+	Strings := "this is a string"
+	Bytes := []byte(Strings)
+	fmt.Printf("%v, %T\n", Bytes, Bytes)
+
+	// Constants
+	fmt.Printf("%v, %T\n", myConst1, myConst1)
+	fmt.Printf("%v, %T\n", myConst2, myConst2)
+	fmt.Printf("%v, %T\n", myConst3, myConst3)
+	fmt.Printf("%v, %T\n", myConst4, myConst4)
+
+	fmt.Printf("%v KB, %T\n", KB, KB)
+	fmt.Printf("%v MB, %T\n", MB, MB)
+	fmt.Printf("%v GB, %T\n", GB, GB)
+	fmt.Printf("%v TB, %T\n", TB, TB)
+	fmt.Printf("%v PB, %T\n", PB, PB)
+	fmt.Printf("%v EB, %T\n", EB, EB)
+
 	// web server
 	//http.HandleFunc("/hello-world", func(w http.ResponseWriter, r *http.Request) {
 	//	w.Write([]byte("hellow world"))
 	//})
 	//http.ListenAndServe(":8080", nil)
-	srv := api.NewServer()
-	http.ListenAndServe(":8080", srv)
+	//srv := api.NewServer()
+	//http.ListenAndServe(":8080", srv)
 }
