@@ -1,7 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 	"strconv"
 	"time"
 )
@@ -23,6 +27,16 @@ const (
 	ZB
 	YB
 )
+
+type ApiBookResponse struct {
+	ID     string `json:"id"`
+	Isbn   string `json:"isbn"`
+	Title  string `json:"title"`
+	Author struct {
+		Firstname string `json:"firstname"`
+		Lastname  string `json:"lastname"`
+	} `json:"author"`
+}
 
 func main() {
 	n := time.Now()
@@ -112,4 +126,35 @@ func main() {
 	//http.ListenAndServe(":8080", nil)
 	//srv := api.NewServer()
 	//http.ListenAndServe(":8080", srv)
+
+	//source from ->  https://www.youtube.com/watch?v=DzY5uLckefo
+	response, err := http.Get("http://localhost:8000/api/books")
+	if err != nil {
+		fmt.Printf("error %v\n", err)
+		log.Fatal(err)
+	}
+
+	log.Print(response.Body)
+
+	bytes, errRead := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+	//	e := response.Body.Close()
+	//	if e != nil
+	//		log.Fatal(e)
+
+	if errRead != nil {
+		fmt.Printf("error Read %v\n", errRead)
+		log.Fatal(errRead)
+	}
+
+	log.Print(string(bytes))
+
+	var apiBookResponse []ApiBookResponse
+	errUnmarshal := json.Unmarshal(bytes, &apiBookResponse)
+	if errUnmarshal != nil {
+		// fmt.Printf("print error %v\n ", errUnmarshal)
+		log.Fatal(errUnmarshal)
+	}
+
+	log.Printf("%+v", apiBookResponse)
 }
